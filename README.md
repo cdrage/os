@@ -1,4 +1,6 @@
-# Bluebootc - Retro themed (Bluecurve) Graphical Fedora BootC OS
+# Blueboots: Retro Looks, Atomic Upgrades
+
+> A Fedora BootC OS themed like it's 2003, but updated like it's 2025.
 
 <table>
     <tr>
