@@ -42,6 +42,8 @@ If you want to learn more about bootable containers, please refer to the [Fedora
 
 ## IMPORTANT NOTES
 
+- To install additional software, use [Flatpak](https://flatpak.org/).
+- Want to install a package to the CORE of the OS? See our [advanced usage guide](#advanced-usage).
 - ONLY uses generic GPU drivers (Intel integrated GPU, AMD integrated GPU, etc.) from `@hardware-support` in RHEL-derivative OS'
 - No NVIDIA GPU support yet (upcoming)
 - No AMD GPU support yet (upcoming)
