@@ -2,10 +2,12 @@
 
 > A Fedora BootC OS themed like it's 2003, but updated like it's 2025.
 
+![banner](/theme/banner.png)
+
 <table>
     <tr>
-        <td><img src="theme/banner.png" alt="Banner" /></td>
-        <td><img src="theme/screenshot.png" alt="Screenshot" /></td>
+        <td><img src="theme/screenshot.png" alt="Banner" /></td>
+        <td><img src="theme/laptop.png" alt="Screenshot" /></td>
     </tr>
 </table>
 
