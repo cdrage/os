@@ -83,12 +83,12 @@ podman pull quay.io/blueboots/os
 
 ![pulling container](/theme/pulling.png)
 
-1. **(alternatively) Build your bootc-enabled Containerfile:**
+**(Alternatively) Build your own bootc-enabled Containerfile:**
 
 > Git clone this project and build your image locally.
 
 ```sh
-git clone http://github.com/cdrage/blueboots
+git clone http://github.com/bluebootsy/os
 podman build -t quay.io/foo/bar .
 ```
 
@@ -100,6 +100,10 @@ podman build -t quay.io/foo/bar .
 
 1. Choose either `.iso` for an *unattended ISO installer* which will **AUTOMATICALLY WIPE THE FIRST AVAILABLE DISK**. Use with caution! Or `.raw` or any other applicable image type to test locally, such as a live USB stick for testing.
 2. Add your username and password for logging in as well as your "group" (wheel for passwordless sudo access):
+
+**LET ME REPEAT.**
+
+**IF YOU CREATE THE .ISO, IT WILL AUTO-INSTALL TO YOUR FIRST AVAILABLE DISK.**
 
 ![building](/theme/building.png)
 
