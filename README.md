@@ -2,6 +2,8 @@
 
 > A Fedora BootC OS themed like it's 2003, but updated like it's 2025.
 
+[![Container Repository on Quay](https://quay.io/repository/blueboots/os/status "Container Repository on Quay")](https://quay.io/repository/blueboots/os)
+
 ![banner](/theme/banner.png)
 
 <table>
@@ -16,6 +18,12 @@ A graphical declarative OS with a retro theme ([Bluecurve](https://github.com/ne
 Using [bootc](https://bootc-dev.github.io/bootc/) for transactional upgrades!
 
 All built within one `Containerfile`![1]
+
+This main OS image is hosted on [Quay.io](https://quay.io) at:
+
+```sh
+podman pull quay.io/blueboots/os
+```
 
 [1]Technically the `/theme` folder is passed in. Otherwise, everything is in a single `Containerfile`!
 
@@ -65,7 +73,17 @@ Compatible on Windows, macOS & Linux.
 
 ## Usage
 
-1. **Build your bootc-enabled Containerfile:**
+1. **Pull the container image:**
+
+> Pull the container via CLI or within Podman Desktop
+
+```sh
+podman pull quay.io/blueboots/os
+```
+
+![pulling container](/theme/pulling.png)
+
+1. **(alternatively) Build your bootc-enabled Containerfile:**
 
 > Git clone this project and build your image locally.
 
