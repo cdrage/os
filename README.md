@@ -4,28 +4,27 @@
 
 [![Container Repository on Quay](https://quay.io/repository/blueboots/os/status "Container Repository on Quay")](https://quay.io/repository/blueboots/os)
 
-![banner](/theme/banner.png)
+![banner](https://raw.githubusercontent.com/bluebootsy/docs/refs/heads/main/img/banner.png)
 
 <table>
-    <tr>
-        <td><img src="theme/screenshot.png" alt="Banner" /></td>
-        <td><img src="theme/laptop.png" alt="Screenshot" /></td>
-    </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/bluebootsy/docs/refs/heads/main/img/screenshot.png" alt="Screenshot" /></td>
+    <td><img src="https://raw.githubusercontent.com/bluebootsy/docs/refs/heads/main/img/laptop.png" alt="Laptop running Blueboots" /></td>
+  </tr>
 </table>
 
-A graphical declarative OS with a retro theme ([Bluecurve](https://github.com/neeeeow/Bluecurve)) reminiscent of [Fedora Core 1.0](https://en.wikipedia.org/wiki/Fedora_Linux#History).
-
+A graphical, declarative OS with a retro theme ([Bluecurve](https://github.com/neeeeow/Bluecurve)) reminiscent of [Fedora Core 1.0](https://en.wikipedia.org/wiki/Fedora_Linux#History).  
 Using [bootc](https://bootc-dev.github.io/bootc/) for transactional upgrades!
 
-All built within one `Containerfile`![1]
+All built within only **ONE FILE** (`Containerfile`)!
 
-This main OS image is hosted on [Quay.io](https://quay.io) at:
+This main OS image is hosted on Quay.io:
 
 ```sh
 podman pull quay.io/blueboots/os
 ```
 
-[1]Technically the `/theme` folder is passed in. Otherwise, everything is in a single `Containerfile`!
+[1] Technically the `/theme` folder is passed in. Otherwise, everything is in a single `Containerfile`!
 
 ## Topics
 
@@ -38,23 +37,35 @@ podman pull quay.io/blueboots/os
 
 ## Technology
 
-This **Bootable Container (bootc)** OS uses [bootc-image-builder](https://github.com/osbuild/bootc-image-builder) in order to build bootable _container_ disk images.
+This **Bootable Container (bootc)** OS uses [bootc-image-builder](https://github.com/osbuild/bootc-image-builder) to produce bootable *container* disk images.
 
-You will be using this in order to **add users** for you to login!
+You will use this to **add users** so you can log in!
 
-Once a machine is created from the disk image, it can apply transactional updates "in place" from newly pushed container images (without creating a new disk image). For more information, see [bootc](https://bootc-dev.github.io/bootc/). That means it's as easy as `bootc upgrade` after pushing your image with `podman push`.
+Once a machine is created from the disk image, it can apply transactional updates *in place* from newly pushed container images (no need to rebuild the disk image). After you push a new image (`podman push`), just run `bootc upgrade` on the system and reboot.
+
+### Default software
+
+There are some default applications bundled into this OS in additional to the default Fedora images:
+
+* Visual Studio Code (core)
+* Laptop and server hardware support (core)
+* WiFi hardware support (core)
+* Container tools such as Podman (core)
+* Wireguard support (core)
+* Firefox (Flatpak)
+* Podman Desktop (Flatpak)
 
 ### Learning more about bootc
 
-If you want to learn more about bootable containers, please refer to the [Fedora Getting Started Guide](https://docs.fedoraproject.org/en-US/bootc/getting-started/) where you can find a number of videos, demos, best practices and detailed information.
+If you want to learn more about bootable containers, see the [Fedora Getting Started Guide](https://docs.fedoraproject.org/en-US/bootc/getting-started/) for videos, demos, best practices and more details.
 
 ## IMPORTANT NOTES
 
 - To install additional software, use [Flatpak](https://flatpak.org/).
-- Want to install a package to the CORE of the OS? See our [advanced usage guide](#advanced-usage).
-- ONLY uses generic GPU drivers (Intel integrated GPU, AMD integrated GPU, etc.) from `@hardware-support` in RHEL-derivative OS'
-- No NVIDIA GPU support yet (upcoming)
-- No AMD GPU support yet (upcoming)
+- Want to install a package to the **core** of the OS? See [Advanced Usage](#advanced-usage).
+- ONLY generic GPU drivers are included (Intel iGPU, AMD iGPU, etc.) from `@hardware-support` in RHEL-derivative OSes.
+- No NVIDIA GPU support yet (upcoming).
+- No AMD GPU support yet (upcoming).
 
 ## Requirements
 
@@ -62,8 +73,7 @@ If you want to learn more about bootable containers, please refer to the [Fedora
 
 We have to initially build our OS! So look below for requirements.
 
-**OS:**
-
+**OS:**  
 Compatible on Windows, macOS & Linux.
 
 **Software:**
@@ -75,110 +85,120 @@ Compatible on Windows, macOS & Linux.
 
 1. **Pull the container image:**
 
-> Pull the container via CLI or within Podman Desktop
+   > Pull via CLI or within Podman Desktop
 
-```sh
-podman pull quay.io/blueboots/os
-```
+   ```sh
+   podman pull quay.io/blueboots/os
+   ```
 
-![pulling container](/theme/pulling.png)
+   ![pulling container](https://raw.githubusercontent.com/bluebootsy/docs/refs/heads/main/img/pulling.png)
 
-**(Alternatively) Build your own bootc-enabled Containerfile:**
+2. **(Alternatively) Build your own bootc-enabled Containerfile:**
 
-> Git clone this project and build your image locally.
+   > Git clone this project and build your image locally.
 
-```sh
-git clone http://github.com/bluebootsy/os
-podman build -t quay.io/foo/bar .
-```
+   ```sh
+   git clone http://github.com/bluebootsy/os
+   podman build -t quay.io/foo/bar .
+   ```
 
-2. **Build the disk image:**
+3. **Build the disk image:**
 
-> Build the disk image with the Podman Desktop BootC extension. Make sure you provide your username and password.
+   > Use the Podman Desktop BootC extension. Make sure you provide your username and password.
 
-**Important note:** Use the *interactive installer* within the BootC extension to add your username and password! Or else you will **NOT BE ABLE TO LOGIN**.
+   **Important note:** Use the *interactive installer* within the BootC extension to add your username and password! Otherwise you will **NOT BE ABLE TO LOGIN**.
 
-1. Choose either `.iso` for an *unattended ISO installer* which will **AUTOMATICALLY WIPE THE FIRST AVAILABLE DISK**. Use with caution! Or `.raw` or any other applicable image type to test locally, such as a live USB stick for testing.
-2. Add your username and password for logging in as well as your "group" (wheel for passwordless sudo access):
+   1. Choose either `.iso` for an *unattended ISO installer* which will **AUTOMATICALLY WIPE THE FIRST AVAILABLE DISK** (use with caution!), or `.raw`/other image types for local testing (e.g. writing to a USB stick).
+   2. Add your username and password for logging in, as well as your group (e.g. `wheel` for passwordless sudo).
 
-**LET ME REPEAT.**
+   **LET ME REPEAT.**  
+   **IF YOU CREATE THE .ISO, IT WILL AUTO-INSTALL TO YOUR FIRST AVAILABLE DISK AFTER SELECTING IT FOR BOOTING.**
 
-**IF YOU CREATE THE .ISO, IT WILL AUTO-INSTALL TO YOUR FIRST AVAILABLE DISK AFTER SELECTING IT FOR BOOTING.**
+   ![building image](https://raw.githubusercontent.com/bluebootsy/docs/refs/heads/main/img/building.png)
 
-![building](/theme/building.png)
+4. **Installation:**
 
-3. **Installation:**
+   **If you chose ISO:**  
+   1. "Write" the ISO using [balenaEtcher](https://etcher.balena.io/) or [Fedora Media Writer](https://en.wikipedia.org/wiki/Fedora_Media_Writer) to a USB stick.  
+   2. Plug into a PC and select the USB from the boot screen.  
+   3. Watch as it installs unattended to the first available drive.
 
-**If you chose ISO:**
+   **If you chose RAW:**  
+   1. You can "write" the `.raw` image with the above tools (balenaEtcher or Fedora Media Writer) to a USB stick.  
+   2. Plug into a PC and select the USB from the boot screen.  
+   3. Test out the "live" image.
 
-1. "Write" the ISO using [balenaEtcher](https://etcher.balena.io/) or [Fedora Media Writer](https://en.wikipedia.org/wiki/Fedora_Media_Writer) to a USB stick
-2. Plug into a PC and select the USB from the boot screen
-3. Watch as it installs unattended to the first available drive.
-
-**If you chose RAW:**
-1. You can "write" the `.raw` image with the above tools with either [balenaEtcher](https://etcher.balena.io/) or [Fedora Media Writer](https://en.wikipedia.org/wiki/Fedora_Media_Writer) to a USB stick.
-2. Plug into a PC and select the USB from the boot screen
-3. Test out the "live" image.
-
-## Advanced usage
+## Advanced Usage
 
 ### Making changes to your OS
 
 Want to change a "core" package or make system changes that propagate to your OS? Follow below!
 
+#### Adding "flatpak" software
+
+Software that is _consistently_ being upgraded should be installed as a [Flatpak](https://flatpak.org/).
+
+We recommend using [Flathub](https://flathub.org/) as the main way of installing new software.
+
+This can be done on the command line after your OS has booted:
+
+```sh
+flatpak install flathub org.mozilla.firefox
+```
+
+#### Adding "core" software & system changes
+
 In this example we will **add a basic package** called [`figlet`](http://www.figlet.org/):
 
+1. **Edit your `Containerfile`:**
 
-1. Edit your `Containerfile`:
+   Within the [Containerfile](/Containerfile) add the following to the list of packages:
 
-Within the [Containerfile](/Containerfile) add the following to the list of packages:
+   ```Dockerfile
+   RUN dnf install -y \
+     # ... other packages ... \
+     figlet && \
+     dnf clean all && \
+     rm -rf /var/cache/dnf
+   ```
 
-```Dockerfile
-RUN dnf install -y \
-  # ...
-  figlet
-  dnf clean all && \
-  rm -rf /var/cache/dnf
-```
+2. **Build & push your container:**
 
-2. Build & push your container:
+   ```sh
+   podman build -t quay.io/foo/bar .
+   podman push quay.io/foo/bar
+   ```
 
-```sh
-podman build -t quay.io/foo/bar .
-```
+3. **Run `bootc upgrade` on your OS:**
 
-3. Run `bootc upgrade` on your OS:
+   The command downloads your hosted image and applies updates on next reboot.
 
-The command will download your hosted package and then apply all transactional updates.
+   ```sh
+   bootc upgrade
+   ```
 
-```sh
-bootc upgrade
-```
+4. **Reboot and check that `figlet` is installed!**
 
-4. Reboot and check that `figlet` is installed!
-
-```sh
-$ figlet "Hi"
- _   _ _ 
-| | | (_)
-| |_| | |
-|  _  | |
-|_| |_|_|
-```
+   ```sh
+   $ figlet "Hi"
+    _   _ _ 
+   | | | (_) 
+   | |_| | | 
+   |  _  | | 
+   |_| |_|_|
+   ```
 
 ### Using the `bootc` CLI tool
 
-The `bootc` CLI command is the "bread-and-butter" of all bootc-derived images.
-
-Once booted into the system, you can manage it using the `bootc` CLI:
+The `bootc` CLI is the bread-and-butter of bootc-derived images. Once booted, you can manage the system with:
 
 - **Status:** `bootc status` shows the current image and version.
 - **Upgrade:** `bootc upgrade` pulls the latest OCI image to apply next reboot.
 - **Fetch:** `bootc fetch` pre-downloads an update without applying it.
-- **Install:** `bootc install --target /dev/sdX` writes the OS to a block device, good for when "live booting" on a USB flash drive for testing.
+- **Install:** `bootc install --target /dev/sdX` writes the OS to a block device (useful when live-booting from USB for testing).
 
-See [bootc-dev.github.io/bootc](https://bootc-dev.github.io/bootc) for more information.
+See the official docs: <https://bootc-dev.github.io/bootc>
 
-## Known issues
+## Known Issues
 
 No GPU support for NVIDIA and AMD (yet).

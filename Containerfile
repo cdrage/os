@@ -35,7 +35,6 @@ RUN dnf install -y \
   patch \
   git \
   curl \
-  firefox \
   wireguard-tools && \
   dnf clean all && \
   rm -rf /var/cache/dnf
@@ -50,6 +49,18 @@ RUN curl -L "https://code.visualstudio.com/sha/download?build=stable&os=linux-rp
     rm -f vscode.rpm && \
     dnf clean all && \
     rm -rf /var/cache/dnf
+
+# FLATPAK APPLICATIONS
+#
+# Install Flatpak applications that you want to be available by default in your "base" image
+
+# First make sure we add flathub as a remote repository
+RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+# Install the applications that you want to be available by default in your "base" image.
+RUN flatpak install -y flathub org.mozilla.firefox && \
+    flatpak install -y flathub io.podman_desktop.PodmanDesktop 
+
 
 # SYSTEMD SERVICES
 #
@@ -124,10 +135,15 @@ RUN mkdir -p /etc/xdg/xfce4/xfconf/xfce-perchannel-xml && \
 # Setup the "Classic" panel layout for XFCE that imitates the old RHEL / Fedora layout
 # 
 # Why a systemd unit + script? Well, this is only able to be ran AFTER the user logs in, as XFCE4 components need to be running for the panel + wallpaper to be set.
-COPY theme/retro-xfce4-fedora-core-panel.tar.bz2 /usr/share/xfce4-panel-profiles/retro-xfce4-fedora-core-panel.tar.bz2
-COPY theme/og-wallpaper.png /usr/share/backgrounds/og-wallpaper.png
+RUN curl -L https://raw.githubusercontent.com/bluebootsy/docs/refs/heads/main/panel/retro-xfce4-fedora-core-panel.tar.bz2 -o /usr/share/xfce4-panel-profiles/retro-xfce4-fedora-core-panel.tar.bz2
+RUN curl -L https://raw.githubusercontent.com/bluebootsy/docs/refs/heads/main/img/og-wallpaper.png -o /usr/share/backgrounds/og-wallpaper.png
+
+RUN chmod 777 /usr/share/xfce4-panel-profiles/retro-xfce4-fedora-core-panel.tar.bz2 && \
+    chmod 777 /usr/share/backgrounds/og-wallpaper.png
+
+# Below is the "base64" of the original wallpaper, so copy this over.
 RUN printf '%s\n' \
-  '#/bin/bash' \
+  '#!/bin/bash' \
   '' \
   'FLAG="$HOME/.config/.panel_restored"' \
   'if [ -f "$FLAG" ]; then' \
@@ -187,7 +203,7 @@ RUN dnf install -y lightdm lightdm-gtk && \
     systemctl enable lightdm.service && \
     systemctl disable gdm || true && \
     systemctl disable sddm || true
-COPY theme/login-wallpaper.png /usr/share/backgrounds/login-wallpaper.png
+RUN curl -L https://raw.githubusercontent.com/bluebootsy/docs/refs/heads/main/img/login-wallpaper.png -o /usr/share/backgrounds/login-wallpaper.png
 RUN mkdir -p /etc/lightdm && \
     printf '%s\n' \
       '[greeter]' \
@@ -197,7 +213,8 @@ RUN mkdir -p /etc/lightdm && \
       'xft-antialias=true' \
       'xft-hintstyle=hintslight' \
       'background=/usr/share/backgrounds/login-wallpaper.png' \
-      'welcome-message=Fedora Core' \
+      'show-user-image=false' \
+      'welcome-message=Blueboots' \
       'indicators=' \
       > /etc/lightdm/lightdm-gtk-greeter.conf
 
