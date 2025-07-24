@@ -141,7 +141,6 @@ RUN curl -L https://raw.githubusercontent.com/bluebootsy/docs/refs/heads/main/im
 RUN chmod 777 /usr/share/xfce4-panel-profiles/retro-xfce4-fedora-core-panel.tar.bz2 && \
     chmod 777 /usr/share/backgrounds/og-wallpaper.png
 
-# Below is the "base64" of the original wallpaper, so copy this over.
 RUN printf '%s\n' \
   '#!/bin/bash' \
   '' \
