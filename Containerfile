@@ -35,6 +35,7 @@ RUN dnf install -y \
   patch \
   git \
   curl \
+  ristretto \
   wireguard-tools && \
   dnf clean all && \
   rm -rf /var/cache/dnf
