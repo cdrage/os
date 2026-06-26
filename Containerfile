@@ -41,17 +41,6 @@ RUN dnf install -y \
   dnf clean all && \
   rm -rf /var/cache/dnf
 
-# VISUAL STUDIO CODE FOR DEVELOPMENT
-# 
-# You can change this to whatever editor you like, but I prefer VS Code.
-# The reason for installing it is that using it through Flatpak is NOT OFFICIAL or recommended.
-# The official VS Code is available as a .rpm package, so we can install it directly
-RUN curl -L "https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64" -o vscode.rpm && \
-    dnf install -y ./vscode.rpm && \
-    rm -f vscode.rpm && \
-    dnf clean all && \
-    rm -rf /var/cache/dnf
-
 # FLATPAK APPLICATIONS
 #
 # Install Flatpak applications that you want to be available by default in your "base" image
@@ -61,7 +50,8 @@ RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flath
 
 # Install the applications that you want to be available by default in your "base" image.
 RUN flatpak install -y flathub org.mozilla.firefox && \
-    flatpak install -y flathub io.podman_desktop.PodmanDesktop 
+    flatpak install -y flathub io.podman_desktop.PodmanDesktop && \
+    flatpak install -y flathub dev.zed.Zed
 
 
 # SYSTEMD SERVICES
@@ -161,6 +151,12 @@ RUN printf '%s\n' \
   '' \
   '# Set wallpaper' \
   'xfconf-query -c xfce4-desktop --create --type string -p /backdrop/screen0/monitoreDP-1/workspace0/last-image -s /usr/share/backgrounds/og-wallpaper.png' \
+  '' \
+  '# Set keyboard shortcut for Zed editor' \
+  'xfconf-query -c xfce4-keyboard-shortcuts --create --type string -p "/commands/custom/<Super>e" -s "flatpak run dev.zed.Zed"' \
+  '' \
+  '# Set keyboard shortcut for file manager' \
+  'xfconf-query -c xfce4-keyboard-shortcuts --create --type string -p "/commands/custom/<Super>f" -s "thunar"' \
   '' \
   '# Mark as done' \
   'touch "$FLAG"' \
