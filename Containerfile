@@ -72,7 +72,7 @@ RUN ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
 # Install the "classic" bluecurve theme for Fedora for XFCE
 # using the project's CMake build system.
 # Fonts are installed manually as CMake doesn't handle them.
-RUN dnf install -y cmake gcc make gtk2-devel gtk3-devel && \
+RUN dnf install -y cmake gcc gcc-c++ make gtk2-devel gtk3-devel && \
     git clone https://github.com/neeeeow/Bluecurve.git && \
     cd Bluecurve && mkdir build && cd build && \
     cmake .. && make && make install && \
@@ -80,7 +80,7 @@ RUN dnf install -y cmake gcc make gtk2-devel gtk3-devel && \
     cp /Bluecurve/fonts/*.ttf /usr/share/fonts/luxi/ && \
     fc-cache -fv && \
     cd / && rm -rf /Bluecurve && \
-    dnf remove -y cmake gcc make gtk2-devel gtk3-devel && \
+    dnf remove -y cmake gcc gcc-c++ make gtk2-devel gtk3-devel && \
     dnf clean all && rm -rf /var/cache/dnf
 
 # SET DEFAULT FONTS AND THEMES GLOBALLY
