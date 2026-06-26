@@ -70,29 +70,18 @@ RUN ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
 # INSTALL INITIAL THEME
 #
 # Install the "classic" bluecurve theme for Fedora for XFCE
-# by running their installation script.
-# patch the script to skip the user input prompts / confirmations.
-RUN git clone https://github.com/neeeeow/Bluecurve.git && \
-    cd Bluecurve && \
-    sed -i '/read -p.*user_input/ a user_input=y' install.sh && \
-    sed -i '/\[\[ \$user_input =~/d' install.sh && \
-    chmod +x install.sh && \
-    bash -x install.sh
-
-
-# INSTALL BLUECURVE THEME GLOBALLY
-#
-# TODO: Maybe update it in case 2.10.0 directory path changes... right now it's hardcoded. Update this in the future.
-RUN mkdir -p \
-      /usr/share/themes \
-      /usr/share/icons \
-      /usr/share/fonts/luxi \
-      /usr/lib/gtk-2.0/2.10.0/engines && \
-    cp -r /root/.themes/* /usr/share/themes/ && \
-    cp -r /root/.icons/* /usr/share/icons/ && \
-    cp /root/.gtk-2.0/engines/libbluecurve.so /usr/lib/gtk-2.0/2.10.0/engines/ && \
-    cp /root/.local/share/fonts/*.ttf /usr/share/fonts/luxi/ && \
-    fc-cache -fv
+# using the project's CMake build system.
+# Fonts are installed manually as CMake doesn't handle them.
+RUN dnf install -y cmake gcc make gtk2-devel gtk3-devel && \
+    git clone https://github.com/neeeeow/Bluecurve.git && \
+    cd Bluecurve && mkdir build && cd build && \
+    cmake .. && make && make install && \
+    mkdir -p /usr/share/fonts/luxi && \
+    cp /Bluecurve/fonts/*.ttf /usr/share/fonts/luxi/ && \
+    fc-cache -fv && \
+    cd / && rm -rf /Bluecurve && \
+    dnf remove -y cmake gcc make gtk2-devel gtk3-devel && \
+    dnf clean all && rm -rf /var/cache/dnf
 
 # SET DEFAULT FONTS AND THEMES GLOBALLY
 #
