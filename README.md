@@ -45,14 +45,16 @@ Once a machine is created from the disk image, it can apply transactional update
 
 ### Default software
 
+This is an **OPINIONATED** OS installation used for my own purposes. Thus...
+
 There are some default applications bundled into this OS in additional to the default Fedora images:
 
-* Visual Studio Code (core)
-* Laptop and server hardware support (core)
-* WiFi hardware support (core)
-* Container tools such as Podman (core)
-* Wireguard support (core)
-* Firefox (Flatpak)
+* Zed
+* Laptop and server hardware support
+* WiFi hardware support
+* Container tools such as Podman
+* Wireguard support
+* Ungoogled Chromium (Flatpak)
 * Podman Desktop (Flatpak)
 
 ### Learning more about bootc

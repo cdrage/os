@@ -49,7 +49,7 @@ RUN dnf install -y \
 RUN flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 # Install the applications that you want to be available by default in your "base" image.
-RUN flatpak install -y flathub org.mozilla.firefox && \
+RUN flatpak install -y flathub io.github.ungoogled_software.ungoogled_chromium && \
     flatpak install -y flathub io.podman_desktop.PodmanDesktop && \
     flatpak install -y flathub dev.zed.Zed
 
